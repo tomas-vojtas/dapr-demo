@@ -1,5 +1,7 @@
 # dapr-demo
 
+DAPR demo with Invoke + PubSub (rabbitmq)
+
 ### run
 - docker-compose up
 - http://localhost:8080/invoke/publish
