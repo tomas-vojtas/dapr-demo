@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Dapr;
 using Dapr.Client;
 using System.Text;
+using SubscriberAPI.Workflows;
+using static Dapr.Client.Autogen.Grpc.v1.Dapr;
+using DaprClient = Dapr.Client.DaprClient;
 
 namespace SubscriberAPI.Controllers
 {
@@ -17,18 +20,22 @@ namespace SubscriberAPI.Controllers
             _logger = logger;
         }
 
-        [Topic("order-queue", "newOrders")]
+        //[Topic("order-queue", "newOrders")]
+        // Unnecessary - alternative to declaration in subscription.yaml
         [HttpPost]
         public async void Post([FromBody] CloudEvent<string> cloudEvent)
         {
-            // string rawContent = string.Empty;
-            // using (var reader = new StreamReader(Request.Body,
-            //            encoding: Encoding.UTF8, detectEncodingFromByteOrderMarks: false))
-            // {
-            //     rawContent = await reader.ReadToEndAsync();
-            // }
-            _logger.LogInformation($"SubscriberAPI/Order-{cloudEvent.Data}");
-            //return data;
+            var guid = cloudEvent.Data;
+            _logger.LogInformation($"SubscriberAPI/Order-Started [guid:{guid}]");
+            Console.WriteLine($"Starting order workflow '{guid}'");
+            DaprClient client = new DaprClientBuilder().Build();
+            await client.StartWorkflowAsync(
+                workflowComponent: "dapr", // Very likely very wrong
+                workflowName: nameof(OrderProcessingWorkflow),
+                input: guid,
+                instanceId: guid.Replace('-','_')); // Valid only with alphanum and underscores
+            _logger.LogInformation($"SubscriberAPI/Order-Finished [guid:{guid}]");
+
         }
     }
 }

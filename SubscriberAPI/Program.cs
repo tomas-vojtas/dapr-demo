@@ -1,3 +1,7 @@
+using Dapr.Workflow;
+using SubscriberAPI.Activities;
+using SubscriberAPI.Workflows;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +10,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDaprWorkflow(opt =>
+{
+    opt.RegisterWorkflow<OrderProcessingWorkflow>();
+
+    opt.RegisterActivity<Activity1>();
+    opt.RegisterActivity<Activity2>();
+    opt.RegisterActivity<Activity3>();
+});
 
 var app = builder.Build();
 

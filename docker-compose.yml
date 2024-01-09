@@ -1,7 +1,7 @@
 version: '3'
 services:
   ############################
-  # RabbitMQ
+  # RabbitMQ (Pub/Sub)
   ############################
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -13,7 +13,15 @@ services:
       interval: 15s
       timeout: 10s
       retries: 10    
-      start_period: 20s
+      start_period: 25s
+  ############################
+  # Redis (State store)
+  ############################
+  redis:
+    image: "redis/redis-stack-server"
+    ports:
+      - "6379:6379"
+      - "8001:8001"
   ############################
   # PublisherAPI + Dapr sidecar
   ############################
