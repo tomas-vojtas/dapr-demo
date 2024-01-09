@@ -25,13 +25,22 @@ namespace InvokeAPI.Controllers
             _logger.LogInformation($"InvokeAPI/Invoke/Test-Finished");
             return await response.Content.ReadAsStringAsync();
         }
-        [HttpGet("Publish")]
+        [HttpGet("PublishOrder")]
         public async Task<string> GetInvokePublish()
         {
-            _logger.LogInformation($"InvokeAPI/Invoke/Publish-Started");
+            _logger.LogInformation($"InvokeAPI/Invoke/PublishOrder-Started");
             var httpClient = DaprClient.CreateInvokeHttpClient();
             var response = await httpClient.GetAsync($"http://publisherapi/publishorder");
-            _logger.LogInformation($"InvokeAPI/Invoke/Publish-Finished");
+            _logger.LogInformation($"InvokeAPI/Invoke/PublishOrder-Finished");
+            return await response.Content.ReadAsStringAsync();
+        }
+        [HttpGet("PublishTest")]
+        public async Task<string> GetInvokePublishTest()
+        {
+            _logger.LogInformation($"InvokeAPI/Invoke/PublishTest-Started");
+            var httpClient = DaprClient.CreateInvokeHttpClient();
+            var response = await httpClient.GetAsync($"http://publisherapi/publishtest");
+            _logger.LogInformation($"InvokeAPI/Invoke/PublishTest-Finished");
             return await response.Content.ReadAsStringAsync();
         }
     }

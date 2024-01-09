@@ -17,7 +17,7 @@ namespace PublisherAPI.Controllers
         public string Get()
         {
             _logger.LogInformation("PublisherAPI/Test");
-            return "Response from TestAPI!";
+            return "Response from PublisherAPI!";
         }
     }
 }

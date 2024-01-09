@@ -8,6 +8,7 @@ spec:
   metadata:
   - name: host
     value: "amqp://rabbitmq:5672"
+# Rest of setting is copied from some example but I'm gonna leave them here to show a few options :)
   - name: durable
     value: "false"
   - name: deletedWhenUnused

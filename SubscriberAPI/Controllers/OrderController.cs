@@ -33,7 +33,7 @@ namespace SubscriberAPI.Controllers
                 workflowComponent: "dapr", // Very likely very wrong
                 workflowName: nameof(OrderProcessingWorkflow),
                 input: guid,
-                instanceId: guid.Replace('-','_')); // Valid only with alphanum and underscores
+                instanceId: guid);
             _logger.LogInformation($"SubscriberAPI/Order-Finished [guid:{guid}]");
 
         }
